@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 // CRUD Vehicle
-import { getVehicles, getVehicleByPlate } from "./api/vehicles/getAll";
+import { getVehicles, getVehicleByPlate } from "./api/vehicles/getByPlaca";
 import { createVehicle } from "./api/vehicles/create";
 
 const app = express();
