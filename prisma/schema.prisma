@@ -26,7 +26,7 @@ model Vehicle {
   modelo        String?
   ano           Int?
   quilometragem Int?
-  dono_id       String?
+  proprietario_id       String?
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
   orders        Order[]

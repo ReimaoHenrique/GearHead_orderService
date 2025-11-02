@@ -1,8 +1,11 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 // CRUD Vehicle
-import { getVehicles, getVehicleByPlate } from "./api/vehicles/getByPlaca";
+import { getVehicleByPlate } from "./api/vehicles/getByPlaca";
 import { createVehicle } from "./api/vehicles/create";
+import { getVehicleById } from "./api/vehicles/getById";
+import { deleteByPlaca } from "./api/vehicles/deleteByPlaca";
+import { updateVehicleByPlaca } from "./api/vehicles/updateByPlaca";
 
 const app = express();
 
@@ -16,7 +19,11 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Rotas de Veículos
-app.get("/api/vehicles", getVehicles);
-app.get("/api/vehicles/:placa", getVehicleByPlate);
-app.post("/api/createVehicle", createVehicle);
+app.get("/api/vehicles/placa/:placa", getVehicleByPlate);
+app.delete("/api/vehicles/:placa", deleteByPlaca);
+app.put("/api/vehicles/placa/:placa", updateVehicleByPlaca);
+
+app.get("/api/vehicles/:id", getVehicleById);
+app.post("/api/vehicles", createVehicle);
+
 export default app;

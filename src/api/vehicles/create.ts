@@ -5,9 +5,9 @@ const prisma = new PrismaClient();
 
 export const createVehicle = async (req: Request, res: Response) => {
   try {
-    const { placa, nome_carro, modelo, ano, quilometragem, dono_id } = req.body;
+    const { placa, nome_carro, modelo, ano, quilometragem, proprietario_id } =
+      req.body;
 
-    // Validação básica
     if (!placa || !nome_carro) {
       return res
         .status(400)
@@ -30,7 +30,6 @@ export const createVehicle = async (req: Request, res: Response) => {
         .json({ error: "Já existe um veículo com esta placa" });
     }
 
-    // Cria o veículo
     const vehicle = await prisma.vehicle.create({
       data: {
         placa: placa.toUpperCase(),
@@ -38,7 +37,7 @@ export const createVehicle = async (req: Request, res: Response) => {
         modelo,
         ano: ano ? parseInt(ano) : null,
         quilometragem: quilometragem ? parseInt(quilometragem) : null,
-        dono_id: dono_id || null,
+        proprietario_id: proprietario_id || null,
       },
     });
 
