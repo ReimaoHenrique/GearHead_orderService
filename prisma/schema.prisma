@@ -1,9 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = ["accelerate"] // descomente se usar Accelerate
 }
 
 datasource db {
@@ -12,38 +10,37 @@ datasource db {
 }
 
 enum StatusOrder {
-  Atrasado
-  Em_Andamento
-  Concluido
-  Aguardando_Pagamento
-  Aguardando_Pecas
+  AGUARDANDO_ORCAMENTO
+  ATRASADO
+  EM_ANDAMENTO
+  CONCLUIDO
+  AGUARDANDO_PAGAMENTO
+  AGUARDANDO_PECAS
 }
 
 model Vehicle {
-  id            String    @id @default(cuid())
-  placa         String    @unique
-  nome_carro    String
-  modelo        String?
-  ano           Int?
-  quilometragem Int?
-  proprietario_id       String?
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  orders        Order[]
+  id              String    @id @default(cuid())
+  placa           String    @unique
+  nome_carro      String
+  modelo          String?
+  ano             Int?
+  quilometragem   Int?
+  proprietario_id          String?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
 
   @@map("vehicles")
 }
 
 model Order {
   id                     String      @id @default(cuid())
-  placa                  String
-  vehicle                Vehicle     @relation(fields: [placa], references: [placa])
-  status                 StatusOrder
+  placa                  String     
+  status                 StatusOrder @default(AGUARDANDO_ORCAMENTO)
   fotos_antes            String[]    @default(["Nenhuma foto antes"])
   fotos_depois           String[]    @default(["Nenhuma foto depois"])
   titulo                 String
   descricao              String?     @db.VarChar(1000)
-  valor_cobrado_amount   Decimal     @db.Decimal(10, 2)
+  valor_cobrado_amount   Decimal?     @db.Decimal(10, 2)
   valor_cobrado_currency String      @default("BRL")
   data_inicio            DateTime
   data_prevista          DateTime?
@@ -56,5 +53,6 @@ model Order {
   created_at             DateTime    @default(now())
   updated_at             DateTime    @updatedAt
 
+  @@index([placa])  
   @@map("orders")
 }

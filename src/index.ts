@@ -6,6 +6,8 @@ import { createVehicle } from "./api/vehicles/create";
 import { getVehicleById } from "./api/vehicles/getById";
 import { deleteByPlaca } from "./api/vehicles/deleteByPlaca";
 import { updateVehicleByPlaca } from "./api/vehicles/updateByPlaca";
+// CRUD Order
+import { createOrder } from "./api/order/create";
 
 const app = express();
 
@@ -26,4 +28,6 @@ app.put("/api/vehicles/placa/:placa", updateVehicleByPlaca);
 app.get("/api/vehicles/:id", getVehicleById);
 app.post("/api/vehicles", createVehicle);
 
+// Rotas de Order
+app.post("/api/orders", createOrder);
 export default app;
