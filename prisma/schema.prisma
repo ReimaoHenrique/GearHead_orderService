@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  // previewFeatures = ["accelerate"] // descomente se usar Accelerate
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StatusOrder {
+  Atrasado
+  Em_Andamento
+  Concluido
+  Aguardando_Pagamento
+  Aguardando_Pecas
+}
+
+model Vehicle {
+  id            String    @id @default(cuid())
+  placa         String    @unique
+  nome_carro    String
+  modelo        String?
+  ano           Int?
+  quilometragem Int?
+  dono_id       String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  orders        Order[]
+
+  @@map("vehicles")
+}
+
+model Order {
+  id                     String      @id @default(cuid())
+  placa                  String
+  vehicle                Vehicle     @relation(fields: [placa], references: [placa])
+  status                 StatusOrder
+  fotos_antes            String[]    @default(["Nenhuma foto antes"])
+  fotos_depois           String[]    @default(["Nenhuma foto depois"])
+  titulo                 String
+  descricao              String?     @db.VarChar(1000)
+  valor_cobrado_amount   Decimal     @db.Decimal(10, 2)
+  valor_cobrado_currency String      @default("BRL")
+  data_inicio            DateTime
+  data_prevista          DateTime?
+  data_conclusao         DateTime?
+  oficina_id             String
+  colaborador_id         String?
+  pecas_usadas           String[]    @default(["Não informado"])
+  breakdown              Json?
+  updated_by             String
+  created_at             DateTime    @default(now())
+  updated_at             DateTime    @updatedAt
+
+  @@map("orders")
+}
